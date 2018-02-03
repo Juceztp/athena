@@ -1,0 +1,36 @@
+{
+  "name": "athena",
+  "version": "1.0.0",
+  "description": "Bot of Discord that updates the username with the SR",
+  "main": "index.js",
+  "scripts": {
+    "js": "babel src/js --out-dir dist/js",
+    "watch:js": "onchange src/js/*.js -- npm run js",
+    "dev": "npm run watch:js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Juceztp/athena.git"
+  },
+  "keywords": [
+    "BOT",
+    "Discord",
+    "athena",
+    "Overwatch",
+    "Javascript",
+    "NodeJs"
+  ],
+  "author": "Julio Peña - juliocesarpv04@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Juceztp/athena/issues"
+  },
+  "homepage": "https://github.com/Juceztp/athena#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  },
+  "dependencies": {
+    "discord.js": "^11.3.0"
+  }
+}
