@@ -1,3 +1,10 @@
 {
-        "token": "Mzc0MjgxOTA3MTE2MDQ4Mzk0.DVfBKg.NKU1nMnx7rC3F2NU5PwP96R_dkg"
+        "token": "Mzc0MjgxOTA3MTE2MDQ4Mzk0.DVfBKg.NKU1nMnx7rC3F2NU5PwP96R_dkg",
+        "global": {
+                "botid": "374281907116048394",
+                "botdiscriminator": "3081",
+                "mainchannelid": "308125036907200512",
+                "initialmessage": ":robot: :robot: :robot:\nIniciando actualización de los heroes de Overwatch - Comunidad Vzla eSports Gaming...\nFormato correcto de nickname para recibir actualización: Battletag#1234.",
+                "region": "us"
+        }
 }
