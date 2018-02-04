@@ -92,6 +92,9 @@ export default class Athena {
 		const data = await overwatch
 			.getGeneralStats(battletag.replace('#', '-'), config.global.region);
 
+		if (nickname === battletag + ' - ' + data.rank)
+			return;
+
 		await this
 			.msg
 			.guild

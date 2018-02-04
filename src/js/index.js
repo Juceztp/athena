@@ -14,7 +14,9 @@ client.on('ready', () => {
 
 	if (config.updateusers) {
 		const _athena = new Athena(client);
-		_athena.init(client);
+		setInterval(() => {
+			_athena.init(client);
+		}, config.global.intervaltime);
 	}
 });
 

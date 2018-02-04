@@ -224,16 +224,25 @@ var Athena = function () {
 
 							case 8:
 								data = _context3.sent;
-								_context3.next = 11;
-								return this.msg.guild.members.get(userId).setNickname(battletag + ' - ' + data.rank);
+
+								if (!(nickname === battletag + ' - ' + data.rank)) {
+									_context3.next = 11;
+									break;
+								}
+
+								return _context3.abrupt('return');
 
 							case 11:
+								_context3.next = 13;
+								return this.msg.guild.members.get(userId).setNickname(battletag + ' - ' + data.rank);
+
+							case 13:
 
 								winston.log('info', 'New nickname for ' + nickname + ' to ' + battletag + ' - ' + data.rank + '...');
 
 								return _context3.abrupt('return', data.rank_name);
 
-							case 13:
+							case 15:
 							case 'end':
 								return _context3.stop();
 						}

@@ -22,7 +22,9 @@ client.on('ready', function () {
 
 	if (config.updateusers) {
 		var _athena = new _athena3.default(client);
-		_athena.init(client);
+		setInterval(function () {
+			_athena.init(client);
+		}, config.global.intervaltime);
 	}
 });
 

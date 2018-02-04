@@ -7,7 +7,8 @@
     "js": "npm run lint:js && babel src/js --out-dir dist/js",
     "watch:js": "onchange src/js/*.js -- npm run js",
     "lint:js": "eslint src/js/**/*.js",
-    "dev": "npm run watch:js"
+    "dev": "npm run watch:js",
+    "start": "npm run js && node dist/js/index.js"
   },
   "repository": {
     "type": "git",
