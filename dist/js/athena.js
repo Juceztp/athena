@@ -30,27 +30,26 @@ var Athena = function () {
 
 		this.bot = client;
 		this.msg = message;
+		this.channel = this.bot.channels.get(config.global.mainchannelid);
 	}
 
 	_createClass(Athena, [{
 		key: 'init',
 		value: function () {
 			var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-				var channel;
 				return regeneratorRuntime.wrap(function _callee$(_context) {
 					while (1) {
 						switch (_context.prev = _context.next) {
 							case 0:
 
 								winston.log('info', 'With ' + this.bot.users.size + ' users...');
-								channel = this.bot.channels.get(config.global.mainchannelid);
-								_context.next = 4;
-								return channel.send(config.global.initialmessage);
+								_context.next = 3;
+								return this.channel.send(config.global.initialmessage);
 
-							case 4:
+							case 3:
 								winston.log('info', 'Update started successfully...');
 
-							case 5:
+							case 4:
 							case 'end':
 								return _context.stop();
 						}
@@ -94,84 +93,95 @@ var Athena = function () {
 
 							case 9:
 								if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-									_context2.next = 21;
+									_context2.next = 27;
 									break;
 								}
 
 								userId = _step.value;
-								_context2.next = 13;
+								_context2.prev = 11;
+								_context2.next = 14;
 								return this.checkUser(userId);
 
-							case 13:
+							case 14:
 								rankName = _context2.sent;
 
 								if (rankName) {
-									_context2.next = 16;
+									_context2.next = 17;
 									break;
 								}
 
-								return _context2.abrupt('continue', 18);
+								return _context2.abrupt('continue', 24);
 
-							case 16:
-								_context2.next = 18;
+							case 17:
+								_context2.next = 19;
 								return this.checkRole(rankName.capitalize(), userId);
 
-							case 18:
+							case 19:
+								_context2.next = 24;
+								break;
+
+							case 21:
+								_context2.prev = 21;
+								_context2.t0 = _context2['catch'](11);
+
+								winston.log('error', _context2.t0);
+
+							case 24:
 								_iteratorNormalCompletion = true;
 								_context2.next = 9;
 								break;
 
-							case 21:
-								_context2.next = 27;
+							case 27:
+								_context2.next = 33;
 								break;
 
-							case 23:
-								_context2.prev = 23;
-								_context2.t0 = _context2['catch'](7);
+							case 29:
+								_context2.prev = 29;
+								_context2.t1 = _context2['catch'](7);
 								_didIteratorError = true;
-								_iteratorError = _context2.t0;
+								_iteratorError = _context2.t1;
 
-							case 27:
-								_context2.prev = 27;
-								_context2.prev = 28;
+							case 33:
+								_context2.prev = 33;
+								_context2.prev = 34;
 
 								if (!_iteratorNormalCompletion && _iterator.return) {
 									_iterator.return();
 								}
 
-							case 30:
-								_context2.prev = 30;
+							case 36:
+								_context2.prev = 36;
 
 								if (!_didIteratorError) {
-									_context2.next = 33;
+									_context2.next = 39;
 									break;
 								}
 
 								throw _iteratorError;
 
-							case 33:
-								return _context2.finish(30);
+							case 39:
+								return _context2.finish(36);
 
-							case 34:
-								return _context2.finish(27);
+							case 40:
+								return _context2.finish(33);
 
-							case 35:
+							case 41:
 
 								winston.log('info', 'Successfully completed update...');
 								return _context2.abrupt('return');
 
-							case 39:
-								_context2.prev = 39;
-								_context2.t1 = _context2['catch'](0);
+							case 45:
+								_context2.prev = 45;
+								_context2.t2 = _context2['catch'](0);
 
-								winston.log('error', _context2.t1);
+								winston.log('error', _context2.t2);
 
-							case 42:
+							case 48:
 							case 'end':
 								return _context2.stop();
 						}
 					}
-				}, _callee2, this, [[0, 39], [7, 23, 27, 35], [28,, 30, 34]]);
+				}, _callee2, this, [[0, 45], [7, 29, 33, 41], [11, 21], [34,, 36, 40]]);
 			}));
 
 			function run() {
@@ -241,27 +251,41 @@ var Athena = function () {
 		key: 'checkRole',
 		value: function () {
 			var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(rankName, userId) {
+				var role;
 				return regeneratorRuntime.wrap(function _callee4$(_context4) {
 					while (1) {
 						switch (_context4.prev = _context4.next) {
 							case 0:
-								winston.log('info', rankName);
-								winston.log('info', userId);
-								/*let role = await message.guild.roles.find(r => r.name === getRole(data.profile.rank));
-        if (!role)
-        	continue;
-        	//Add Roles
-        await message.guild.members.get(userId)
-        	.addRole(role)
-        	.then(g => console.log(`Add role for ${battletag}`))
-        	.catch(e => console.log(e));
-        	//Remove Role
-        await message.guild.members.get(userId)
-        	.removeRoles(ROLES.filter(r => r != role.id))
-        	.then(g => console.log(`Remove roles for ${battletag}`))
-        	.catch(e => console.log(e));*/
+								_context4.next = 2;
+								return this.msg.guild.roles.find(function (r) {
+									return r.name === rankName;
+								});
 
 							case 2:
+								role = _context4.sent;
+
+								if (role) {
+									_context4.next = 5;
+									break;
+								}
+
+								return _context4.abrupt('return');
+
+							case 5:
+								_context4.next = 7;
+								return this.msg.guild.members.get(userId).addRole(role);
+
+							case 7:
+								_context4.next = 9;
+								return this.msg.guild.members.get(userId).removeRoles(Object.values(config.global.ranks).filter(function (r) {
+									return r != role.id && r != 0;
+								}));
+
+							case 9:
+
+								winston.log('info', 'Role added ' + rankName + ' to ' + userId + '...');
+
+							case 10:
 							case 'end':
 								return _context4.stop();
 						}
@@ -274,6 +298,56 @@ var Athena = function () {
 			}
 
 			return checkRole;
+		}()
+	}, {
+		key: 'getRolesFromServer',
+		value: function () {
+			var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+				var _this2 = this;
+
+				return regeneratorRuntime.wrap(function _callee6$(_context6) {
+					while (1) {
+						switch (_context6.prev = _context6.next) {
+							case 0:
+								_context6.next = 2;
+								return this.msg.guild.roles.map(function () {
+									var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(r) {
+										return regeneratorRuntime.wrap(function _callee5$(_context5) {
+											while (1) {
+												switch (_context5.prev = _context5.next) {
+													case 0:
+														_context5.next = 2;
+														return _this2.channel.send(r.name + ': ' + r.id);
+
+													case 2:
+													case 'end':
+														return _context5.stop();
+												}
+											}
+										}, _callee5, _this2);
+									}));
+
+									return function (_x5) {
+										return _ref6.apply(this, arguments);
+									};
+								}());
+
+							case 2:
+								winston.log('info', 'finish');
+
+							case 3:
+							case 'end':
+								return _context6.stop();
+						}
+					}
+				}, _callee6, this);
+			}));
+
+			function getRolesFromServer() {
+				return _ref5.apply(this, arguments);
+			}
+
+			return getRolesFromServer;
 		}()
 	}]);
 

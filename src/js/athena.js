@@ -15,16 +15,17 @@ export default class Athena {
 	constructor (client, message = null) {
 		this.bot = client;
 		this.msg = message;
+		this.channel = this
+			.bot
+			.channels
+			.get(config.global.mainchannelid);
 	}
 
 	async init() {
 
 		winston.log('info', `With ${this.bot.users.size} users...`);
-		const channel = this
-			.bot
-			.channels
-			.get(config.global.mainchannelid);
-		await channel
+		await this
+			.channel
 			.send(config.global.initialmessage);
 		winston.log('info', 'Update started successfully...');
 	}
@@ -45,15 +46,19 @@ export default class Athena {
 				).map(u => u.id);
 
 			for (const userId of usersId) {
+				try {
+					//Assigning nickname
+					const rankName = await this.checkUser (userId);
 
-				//Assigning nickname
-				const rankName = await this.checkUser (userId);
+					//Assigning role
+					if (!rankName)
+						continue;
 
-				//Assigning role
-				if (!rankName)
-					continue;
-
-				await this.checkRole (rankName.capitalize(), userId);
+					await this.checkRole (rankName.capitalize(), userId);
+				}
+				catch (e) {
+					winston.log('error', e);
+				}
 			}
 			
 			winston.log('info', 'Successfully completed update...');
@@ -100,22 +105,48 @@ export default class Athena {
 	}
 
 	async checkRole (rankName, userId) {
-		winston.log('info', rankName);
-		winston.log('info', userId);
-		/*let role = await message.guild.roles.find(r => r.name === getRole(data.profile.rank));
+		const role = await this
+			.msg
+			.guild
+			.roles
+			.find(r => r.name === rankName);
+
 		if (!role)
-			continue;
+			return;
 
 		//Add Roles
-		await message.guild.members.get(userId)
-			.addRole(role)
-			.then(g => console.log(`Add role for ${battletag}`))
-			.catch(e => console.log(e));
+		await this
+			.msg
+			.guild
+			.members
+			.get(userId)
+			.addRole(role);
 
 		//Remove Role
-		await message.guild.members.get(userId)
-			.removeRoles(ROLES.filter(r => r != role.id))
-			.then(g => console.log(`Remove roles for ${battletag}`))
-			.catch(e => console.log(e));*/
+		await this
+			.msg
+			.guild
+			.members
+			.get(userId)
+			.removeRoles( Object
+				.values(config.global.ranks)
+				.filter(r => r != role.id && r != 0)
+			);
+
+		winston.log('info', `Role added ${rankName} to ${userId}...`);
+
+	}
+
+	async getRolesFromServer () {
+		await this
+			.msg
+			.guild
+			.roles
+			.map(async r => {
+				await this
+					.channel
+					.send(r.name + ': ' + r.id);
+			});
+		winston.log('info', 'finish');
 	}
 }
