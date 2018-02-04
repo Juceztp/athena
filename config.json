@@ -1,20 +1,20 @@
 {
-        "token": "Mzc0MjgxOTA3MTE2MDQ4Mzk0.DVfBKg.NKU1nMnx7rC3F2NU5PwP96R_dkg",
+        "token": "",
         "updateusers": true,
         "global": {
-                "botid": "374281907116048394",
-                "botdiscriminator": "3081",
-                "mainchannelid": "308125036907200512",
+                "botid": "",
+                "botdiscriminator": "",
+                "mainchannelid": "",
                 "intervaltime": 300000,
                 "initialmessage": ":robot: :robot: :robot:\nStarting update of the Overwatch heroes \nNickname format: Battletag#1234",
                 "region": "us",
                 "ranks": {
                         "Unranked": "0",
                         "Bronze": "0",
-                        "Silver": "320813803597987860",
-                        "Gold": "325925207875518475",
-                        "Platinum": "320813674266886144",
-                        "Diamond": "409538016860962828",
+                        "Silver": "0",
+                        "Gold": "0",
+                        "Platinum": "0",
+                        "Diamond": "0",
                         "Master": "0",
                         "GrandMaster": "0"
                 }
