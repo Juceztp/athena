@@ -66,7 +66,7 @@ export default class Athena {
 		await this
 			.channel
 			.send(message);
-		winston.log('info', `Sent message: ${this.message}...`);
+		winston.log('info', `Sent message: ${message}...`);
 	}
 
 	async checkUser (userId) {
