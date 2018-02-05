@@ -9,29 +9,45 @@ import Athena from './athena';
 //Config
 const config = require('../../config.json');
 
+//Constant
+const MIUTEINMILLISECONDS = 60000;
+let timeout;
+
 client.on('ready', () => {
 	winston.log('info', `Logged in as ${client.user.tag}...`);
-
-	if (config.updateusers) {
-		const _athena = new Athena(client);
-		setInterval(() => {
-			_athena.init(client);
-		}, config.global.intervaltime);
-	}
+	winston.log('info', `With ${this.bot.users.size} users...`);
 });
 
 client.on('message', message => {
 
-	const _athena = new Athena(client, message);
+	if (!config.global.adminsid.includes(message.author.id))
+		return;
 
-	if (message.author.id === config.global.botid &&
-	message.author.discriminator === config.global.botdiscriminator &&
-	message.content.indexOf(config.global.initialmessage) !== -1) {
-		_athena.run(client, message);
+	const _athena = new Athena(client, message);
+	const messageContent = message.content;
+
+	if (messageContent === '!start')
+		_athena.run();
+
+	if (messageContent === '!start loop') {
+		_athena.run();
+		timeout = client.setInterval(
+			() => _athena.run(),
+			config.global.intervalminutetime * MIUTEINMILLISECONDS);
 	}
 
-	if (message.content === '!list roles')
+	if (messageContent === '!roles')
 		_athena.getRolesFromServer();
+
+	if (messageContent === '!stop loop') {
+		_athena.sendMessage(config.global.stoploopmessage);
+		client.clearInterval(timeout);
+	}
+
+	if (messageContent === '!destroy') {
+		_athena.sendMessage(config.global.destroymessage);
+		client.destroy();
+	}
 });
 
 client.login(config.token);

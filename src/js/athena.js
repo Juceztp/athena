@@ -21,18 +21,10 @@ export default class Athena {
 			.get(config.global.mainchannelid);
 	}
 
-	async init() {
-
-		winston.log('info', `With ${this.bot.users.size} users...`);
-		await this
-			.channel
-			.send(config.global.initialmessage);
-		winston.log('info', 'Update started successfully...');
-	}
-
 	async run() {
 
 		try {
+			this.sendMessage(config.global.initialmessage);
 			//Get Users on server
 			const usersId = await this
 				.bot
@@ -60,13 +52,21 @@ export default class Athena {
 					winston.log('error', e);
 				}
 			}
-			
+
+			this.sendMessage(config.global.finalmessage);
 			winston.log('info', 'Successfully completed update...');
 			return;
 		}
 		catch (e) {
 			winston.log('error', e);
 		}
+	}
+
+	async sendMessage(message) {
+		await this
+			.channel
+			.send(message);
+		winston.log('info', `Sent message: ${this.message}...`);
 	}
 
 	async checkUser (userId) {
@@ -150,6 +150,7 @@ export default class Athena {
 					.channel
 					.send(r.name + ': ' + r.id);
 			});
-		winston.log('info', 'finish');
+		this.sendMessage('Ready!');
+		winston.log('info', 'Sent roles...');
 	}
 }

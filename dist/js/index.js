@@ -17,26 +17,42 @@ var winston = require('winston');
 //Config
 var config = require('../../config.json');
 
+//Constant
+var MIUTEINMILLISECONDS = 60000;
+var timeout = void 0;
+
 client.on('ready', function () {
 	winston.log('info', 'Logged in as ' + client.user.tag + '...');
-
-	if (config.updateusers) {
-		var _athena = new _athena3.default(client);
-		setInterval(function () {
-			_athena.init(client);
-		}, config.global.intervaltime);
-	}
+	winston.log('info', 'With ' + undefined.bot.users.size + ' users...');
 });
 
 client.on('message', function (message) {
 
-	var _athena = new _athena3.default(client, message);
+	if (!config.global.adminsid.includes(message.author.id)) return;
 
-	if (message.author.id === config.global.botid && message.author.discriminator === config.global.botdiscriminator && message.content.indexOf(config.global.initialmessage) !== -1) {
-		_athena.run(client, message);
+	var _athena = new _athena3.default(client, message);
+	var messageContent = message.content;
+
+	if (messageContent === '!start') _athena.run();
+
+	if (messageContent === '!start loop') {
+		_athena.run();
+		timeout = client.setInterval(function () {
+			return _athena.run();
+		}, config.global.intervalminutetime * MIUTEINMILLISECONDS);
 	}
 
-	if (message.content === '!list roles') _athena.getRolesFromServer();
+	if (messageContent === '!roles') _athena.getRolesFromServer();
+
+	if (messageContent === '!stop loop') {
+		_athena.sendMessage(config.global.stoploopmessage);
+		client.clearInterval(timeout);
+	}
+
+	if (messageContent === '!destroy') {
+		_athena.sendMessage(config.global.destroymessage);
+		client.destroy();
+	}
 });
 
 client.login(config.token);

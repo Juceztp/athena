@@ -1,22 +1,26 @@
 {
-        "token": "",
-        "updateusers": true,
-        "global": {
-                "botid": "",
-                "botdiscriminator": "",
-                "mainchannelid": "",
-                "intervaltime": 300000,
-                "initialmessage": ":robot: :robot: :robot:\nStarting update of the Overwatch heroes \nNickname format: Battletag#1234",
-                "region": "us",
-                "ranks": {
-                        "Unranked": "0",
-                        "Bronze": "0",
-                        "Silver": "0",
-                        "Gold": "0",
-                        "Platinum": "0",
-                        "Diamond": "0",
-                        "Master": "0",
-                        "GrandMaster": "0"
-                }
-        }
+	"token": "token here!!!",
+	"global": {
+		"adminsid":[
+			"0",
+			"1"
+		],
+		"mainchannelid": "0",
+		"intervalminutetime": 5,
+		"initialmessage": "Starting update \nNickname format: Battletag#1234",
+		"finalmessage": "Finished update!",
+		"destroymessage": "Bye!",
+		"stoploopmessage": "Stoped!",
+		"region": "us",
+		"ranks": {
+			"Unranked": "0",
+			"Bronze": "0",
+			"Silver": "0",
+			"Gold": "0",
+			"Platinum": "0",
+			"Diamond": "0",
+			"Master": "0",
+			"GrandMaster": "0"
+		}
+	}
 }

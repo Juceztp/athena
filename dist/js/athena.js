@@ -34,161 +34,163 @@ var Athena = function () {
 	}
 
 	_createClass(Athena, [{
-		key: 'init',
-		value: function () {
-			var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-				return regeneratorRuntime.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-
-								winston.log('info', 'With ' + this.bot.users.size + ' users...');
-								_context.next = 3;
-								return this.channel.send(config.global.initialmessage);
-
-							case 3:
-								winston.log('info', 'Update started successfully...');
-
-							case 4:
-							case 'end':
-								return _context.stop();
-						}
-					}
-				}, _callee, this);
-			}));
-
-			function init() {
-				return _ref.apply(this, arguments);
-			}
-
-			return init;
-		}()
-	}, {
 		key: 'run',
 		value: function () {
-			var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+			var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
 				var _this = this;
 
 				var usersId, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, userId, rankName;
 
-				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+				return regeneratorRuntime.wrap(function _callee$(_context) {
 					while (1) {
-						switch (_context2.prev = _context2.next) {
+						switch (_context.prev = _context.next) {
 							case 0:
-								_context2.prev = 0;
-								_context2.next = 3;
+								_context.prev = 0;
+
+								this.sendMessage(config.global.initialmessage);
+								//Get Users on server
+								_context.next = 4;
 								return this.bot.users.filter(function (u) {
 									return _this.msg.guild.members.get(u.id);
 								}).map(function (u) {
 									return u.id;
 								});
 
-							case 3:
-								usersId = _context2.sent;
+							case 4:
+								usersId = _context.sent;
 								_iteratorNormalCompletion = true;
 								_didIteratorError = false;
 								_iteratorError = undefined;
-								_context2.prev = 7;
+								_context.prev = 8;
 								_iterator = usersId[Symbol.iterator]();
 
-							case 9:
+							case 10:
 								if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-									_context2.next = 27;
+									_context.next = 28;
 									break;
 								}
 
 								userId = _step.value;
-								_context2.prev = 11;
-								_context2.next = 14;
+								_context.prev = 12;
+								_context.next = 15;
 								return this.checkUser(userId);
 
-							case 14:
-								rankName = _context2.sent;
+							case 15:
+								rankName = _context.sent;
 
 								if (rankName) {
-									_context2.next = 17;
+									_context.next = 18;
 									break;
 								}
 
-								return _context2.abrupt('continue', 24);
+								return _context.abrupt('continue', 25);
 
-							case 17:
-								_context2.next = 19;
+							case 18:
+								_context.next = 20;
 								return this.checkRole(rankName.capitalize(), userId);
 
-							case 19:
-								_context2.next = 24;
+							case 20:
+								_context.next = 25;
 								break;
 
-							case 21:
-								_context2.prev = 21;
-								_context2.t0 = _context2['catch'](11);
+							case 22:
+								_context.prev = 22;
+								_context.t0 = _context['catch'](12);
 
-								winston.log('error', _context2.t0);
+								winston.log('error', _context.t0);
 
-							case 24:
+							case 25:
 								_iteratorNormalCompletion = true;
-								_context2.next = 9;
+								_context.next = 10;
 								break;
 
-							case 27:
-								_context2.next = 33;
+							case 28:
+								_context.next = 34;
 								break;
 
-							case 29:
-								_context2.prev = 29;
-								_context2.t1 = _context2['catch'](7);
+							case 30:
+								_context.prev = 30;
+								_context.t1 = _context['catch'](8);
 								_didIteratorError = true;
-								_iteratorError = _context2.t1;
+								_iteratorError = _context.t1;
 
-							case 33:
-								_context2.prev = 33;
-								_context2.prev = 34;
+							case 34:
+								_context.prev = 34;
+								_context.prev = 35;
 
 								if (!_iteratorNormalCompletion && _iterator.return) {
 									_iterator.return();
 								}
 
-							case 36:
-								_context2.prev = 36;
+							case 37:
+								_context.prev = 37;
 
 								if (!_didIteratorError) {
-									_context2.next = 39;
+									_context.next = 40;
 									break;
 								}
 
 								throw _iteratorError;
 
-							case 39:
-								return _context2.finish(36);
-
 							case 40:
-								return _context2.finish(33);
+								return _context.finish(37);
 
 							case 41:
+								return _context.finish(34);
 
+							case 42:
+
+								this.sendMessage(config.global.finalmessage);
 								winston.log('info', 'Successfully completed update...');
-								return _context2.abrupt('return');
+								return _context.abrupt('return');
 
-							case 45:
-								_context2.prev = 45;
-								_context2.t2 = _context2['catch'](0);
+							case 47:
+								_context.prev = 47;
+								_context.t2 = _context['catch'](0);
 
-								winston.log('error', _context2.t2);
+								winston.log('error', _context.t2);
 
-							case 48:
+							case 50:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this, [[0, 47], [8, 30, 34, 42], [12, 22], [35,, 37, 41]]);
+			}));
+
+			function run() {
+				return _ref.apply(this, arguments);
+			}
+
+			return run;
+		}()
+	}, {
+		key: 'sendMessage',
+		value: function () {
+			var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(message) {
+				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								_context2.next = 2;
+								return this.channel.send(message);
+
+							case 2:
+								winston.log('info', 'Sent message: ' + this.message + '...');
+
+							case 3:
 							case 'end':
 								return _context2.stop();
 						}
 					}
-				}, _callee2, this, [[0, 45], [7, 29, 33, 41], [11, 21], [34,, 36, 40]]);
+				}, _callee2, this);
 			}));
 
-			function run() {
+			function sendMessage(_x2) {
 				return _ref2.apply(this, arguments);
 			}
 
-			return run;
+			return sendMessage;
 		}()
 	}, {
 		key: 'checkUser',
@@ -250,7 +252,7 @@ var Athena = function () {
 				}, _callee3, this);
 			}));
 
-			function checkUser(_x2) {
+			function checkUser(_x3) {
 				return _ref3.apply(this, arguments);
 			}
 
@@ -302,7 +304,7 @@ var Athena = function () {
 				}, _callee4, this);
 			}));
 
-			function checkRole(_x3, _x4) {
+			function checkRole(_x4, _x5) {
 				return _ref4.apply(this, arguments);
 			}
 
@@ -336,15 +338,16 @@ var Athena = function () {
 										}, _callee5, _this2);
 									}));
 
-									return function (_x5) {
+									return function (_x6) {
 										return _ref6.apply(this, arguments);
 									};
 								}());
 
 							case 2:
-								winston.log('info', 'finish');
+								this.sendMessage('Ready!');
+								winston.log('info', 'Sent roles...');
 
-							case 3:
+							case 4:
 							case 'end':
 								return _context6.stop();
 						}
