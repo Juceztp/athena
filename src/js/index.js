@@ -10,7 +10,7 @@ import Athena from './athena';
 const config = require('../../config.json');
 
 //Constant
-const MIUTEINMILLISECONDS = 60000;
+const MINUTEINMILLISECONDS = 60000;
 let timeout;
 
 client.on('ready', () => {
@@ -33,7 +33,7 @@ client.on('message', message => {
 		_athena.run();
 		timeout = client.setInterval(
 			() => _athena.run(),
-			config.global.intervalminutetime * MIUTEINMILLISECONDS);
+			config.global.intervalminutetime * MINUTEINMILLISECONDS);
 	}
 
 	if (messageContent === '!roles')
