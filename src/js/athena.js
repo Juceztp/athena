@@ -1,13 +1,13 @@
-//Dependencies
+// Dependencies
 require('babel-core/register');
 require('babel-polyfill');
-const overwatch = require('owapi');
+const overwatch = require('./classes/Overwatch');
 const winston = require('winston');
 
-//Dependencies local
+// Local Dependencies
 require('./util/capitalize');
 
-//Config
+//C onfig
 const config = require('../../config.json');
 
 export default class Athena {
@@ -29,7 +29,7 @@ export default class Athena {
 			const usersId = await this
 				.bot
 				.users
-				.filter(u => 
+				.filter(u =>
 					this
 						.msg
 						.guild
@@ -90,9 +90,9 @@ export default class Athena {
 
 		//Get data profile overwatch
 		const data = await overwatch
-			.getGeneralStats(battletag.replace('#', '-'), config.global.region);
+			.searchData(battletag.replace('#', '-'), config.global.region);
 
-		if (nickname === battletag + ' - ' + data.rank)
+		if (nickname === battletag + ' - ' + data.getData().rank)
 			return;
 
 		await this
