@@ -8,7 +8,6 @@ require('./util/capitalize');
 
 //Config
 const config = require('../../config.json');
-const games = ['Overwatch', 'LoL'];
 
 export default class Athena {
 
@@ -64,7 +63,7 @@ export default class Athena {
 
 	async checkUser (userId) {
 
-		const nickname = this
+		let nickname = this
 			.msg
 			.guild
 			.members
@@ -74,12 +73,9 @@ export default class Athena {
 		if (!nickname)
 			return;
 
-		const battletag = nickname
-			.split('-')[0]
-			.trim();
-
-		if (!battletag || battletag.search('#') === -1)
-			return;
+		nickname = nickname
+				.split('-')[0]
+				.trim();
 
 		let rol = await this
 				.msg
@@ -88,7 +84,7 @@ export default class Athena {
 				.get(userId)
 				.roles
 				.find( r => {
-					return games.includes(r.name);
+					return config.gameslist.includes(r.name);
 				});
 
 		if(!rol)
@@ -98,19 +94,18 @@ export default class Athena {
 		let Game = require(`./classes/${rol.name}`);
 		let _game = new Game();
 
-		await _game
-			.searchData(userId, battletag.replace('#', '-'), config.games[`${rol.name}`].region, this);
+		_game.searchData(userId, nickname, config.games[`${rol.name}`], this);
 	}
 
-	async changeNick(userId, battletag, suffix){
+	async changeNick(userId, nickname, suffix){
 
 		await this
 			.msg
 			.guild
 			.members
 			.get(userId)
-			.setNickname(`${battletag} - ${suffix}`);
+			.setNickname(`${nickname} - ${suffix}`);
 
-		winston.log('info', `New nickname ${battletag} - ${suffix}...`);
+		winston.log('info', `New nickname ${nickname} - ${suffix}...`);
 	}
 }

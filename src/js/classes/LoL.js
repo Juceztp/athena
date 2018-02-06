@@ -1,24 +1,24 @@
 // Dependencies
 const API = require('lol-riot-api-module');
+const winston = require('winston');
 
-// Local dependencies
-const Game = require ('./Game');
-
-//Config
-const config = require('../../config.json');
-
-class LoL extends Game
+class LoL
 {
-	searchData(userId, battletag, region, athena)
+	searchData(userId, nickname, config, athena)
 	{
 		const api = new API({
-			key: config.games.LoL.key,
-			region: region
+			key: config.key,
+			region: config.region
 		});
-		let options = { summonerId: 419883 };
+
+		const options = { name: nickname };
 
 		api.getSummoner(options, (err, res) => {
-			athena.changeNick(userId, battletag, res.summonerLevel);
+			if(err){
+				winston.log('info', `${err.message}: ${nickname}`);
+				return;
+			}
+			athena.changeNick(userId, nickname, res.summonerLevel);
 		});
 	}
 }

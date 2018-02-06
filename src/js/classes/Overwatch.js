@@ -1,18 +1,27 @@
 // Dependencies
 const overwatch = require('owapi');
+const winston = require('winston');
 
-// Local dependencies
-const Game = require ('./Game');
-
-class Overwatch extends Game
+class Overwatch
 {
 	//async searchData (battletag, region)
-	async searchData(userId, battletag, region, athena)
+	async searchData(userId, nickname, config, athena)
 	{
-		this.data = (await overwatch
-			.getGeneralStats(battletag, region)
-		).rank;
-		athena.changeNick(userId, battletag, this.data);
+		if (nickname.search('#') === -1){
+			winston.log('info', `Bad format: ${nickname}`);
+			return;
+		}
+		
+		try{
+			let suffix = await overwatch
+				.getGeneralStats(nickname.replace('#', '-'), config.region);
+
+			athena.changeNick(userId, nickname, suffix.rank);
+		}
+		catch(err){
+			winston.log('info', `Data not found: ${nickname}`);
+			return;
+		}
 	}
 }
 
