@@ -1,14 +1,14 @@
-// Dependencies
+//Dependencies
 require('babel-core/register');
 require('babel-polyfill');
-const overwatch = require('./classes/Overwatch');
 const winston = require('winston');
 
-// Local Dependencies
+//Dependencies local
 require('./util/capitalize');
 
-//C onfig
+//Config
 const config = require('../../config.json');
+const games = ['Overwatch', 'LoL'];
 
 export default class Athena {
 
@@ -39,14 +39,7 @@ export default class Athena {
 
 			for (const userId of usersId) {
 				try {
-					//Assigning nickname
-					const rankName = await this.checkUser (userId);
-
-					//Assigning role
-					if (!rankName)
-						continue;
-
-					await this.checkRole (rankName.capitalize(), userId);
+					await this.checkUser (userId);
 				}
 				catch (e) {
 					winston.log('error', e);
@@ -88,69 +81,36 @@ export default class Athena {
 		if (!battletag || battletag.search('#') === -1)
 			return;
 
-		//Get data profile overwatch
-		const data = await overwatch
-			.searchData(battletag.replace('#', '-'), config.global.region);
+		let rol = await this
+				.msg
+				.guild
+				.members
+				.get(userId)
+				.roles
+				.find( r => {
+					return games.includes(r.name);
+				});
 
-		if (nickname === battletag + ' - ' + data.getData().rank)
+		if(!rol)
 			return;
 
-		await this
-			.msg
-			.guild
-			.members
-			.get(userId)
-			.setNickname(`${battletag} - ${data.rank}`);
+		//Get data profile
+		let Game = require(`./classes/${rol.name}`);
+		let _game = new Game();
 
-		winston.log('info', `New nickname for ${nickname} to ${battletag} - ${data.rank}...`);
-
-		return data.rank_name;
+		await _game
+			.searchData(userId, battletag.replace('#', '-'), config.games[`${rol.name}`].region, this);
 	}
 
-	async checkRole (rankName, userId) {
-		const role = await this
-			.msg
-			.guild
-			.roles
-			.find(r => r.name === rankName);
+	async changeNick(userId, battletag, suffix){
 
-		if (!role)
-			return;
-
-		//Add Roles
 		await this
 			.msg
 			.guild
 			.members
 			.get(userId)
-			.addRole(role);
+			.setNickname(`${battletag} - ${suffix}`);
 
-		//Remove Role
-		await this
-			.msg
-			.guild
-			.members
-			.get(userId)
-			.removeRoles( Object
-				.values(config.global.ranks)
-				.filter(r => r != role.id && r != 0)
-			);
-
-		winston.log('info', `Role added ${rankName} to ${userId}...`);
-
-	}
-
-	async getRolesFromServer () {
-		await this
-			.msg
-			.guild
-			.roles
-			.map(async r => {
-				await this
-					.channel
-					.send(r.name + ': ' + r.id);
-			});
-		this.sendMessage('Ready!');
-		winston.log('info', 'Sent roles...');
+		winston.log('info', `New nickname ${battletag} - ${suffix}...`);
 	}
 }

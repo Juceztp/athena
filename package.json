@@ -43,5 +43,7 @@
     "owapi": "^1.0.2",
     "winston": "^3.0.0-rc1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lol-riot-api-module": "^3.0.3"
+  }
 }

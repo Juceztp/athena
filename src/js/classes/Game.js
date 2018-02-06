@@ -1,7 +1,5 @@
 class Game
 {
-	data;
-
 	getData()
 	{
 		return this.data;
