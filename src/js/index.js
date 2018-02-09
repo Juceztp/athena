@@ -39,6 +39,9 @@ client.on('message', message => {
 	if (messageContent === '!roles')
 		_athena.getRolesFromServer();
 
+	if (messageContent === '!init roles')
+		_athena.createRoles();
+
 	if (messageContent === '!stop loop') {
 		_athena.sendMessage(config.global.stoploopmessage);
 		client.clearInterval(timeout);

@@ -13,11 +13,30 @@
 	},
 	"games": {
 		"Overwatch": {
-			"region": "us"
+			"region": "us",
+			"roles": [
+				"GrandMaster - OW",
+				"Master - OW",
+				"Diamond - OW",
+				"Platinum - OW",
+				"Gold - OW",
+				"Silver - OW",
+				"Bronze - OW"
+			]
 		},
 		"LoL": {
 			"key": "",
-			"region": "lan"
+			"region": "lan",
+			"roles": [
+				"Challenger - LoL",
+				"Master - LoL",
+				"Diamond - LoL",
+				"Platinum - LoL",
+				"Gold - LoL",
+				"Silver - LoL",
+				"Bronze - LoL",
+				"Unranked - LoL"
+			]
 		}
 	},
 	"gameslist": [

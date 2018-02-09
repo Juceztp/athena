@@ -97,15 +97,79 @@ export default class Athena {
 		_game.searchData(userId, nickname, config.games[`${rol.name}`], this);
 	}
 
-	async changeNick(userId, nickname, suffix){
+	async changeNick(userId, nickname, prefix){
 
 		await this
 			.msg
 			.guild
 			.members
 			.get(userId)
-			.setNickname(`${nickname} - ${suffix}`);
+			.setNickname(`${prefix}${nickname}`);
 
-		winston.log('info', `New nickname ${nickname} - ${suffix}...`);
+		winston.log('info', `New nickname ${prefix} - ${nickname}...`);
+	}
+
+	async checkRole (userId, rankName, game) {
+		const role = await this
+			.msg
+			.guild
+			.roles
+			.find(r => r.name === rankName);
+
+		if (!role)
+			return;
+
+		// Get old role of the game
+		const gameRoles = config.games[`${game}`].roles;
+		const activeRole = await this
+			.msg
+			.guild
+			.members
+			.get(userId)
+			.roles
+			.array()
+			.find( e => gameRoles.includes(e.name));
+
+		if(activeRole){
+			// Remove Role
+			await this
+				.msg
+				.guild
+				.members
+				.get(userId)
+				.removeRole(activeRole);
+		}
+
+		//Add Roles
+		await this
+			.msg
+			.guild
+			.members
+			.get(userId)
+			.addRole(role);
+
+		winston.log('info', `Role added ${rankName} to ${userId}...`);
+
+	}
+
+	async createRoles(){
+		config.gameslist.forEach( async (game) => {
+			const gameRoles = config.games[`${game}`].roles;
+			let nameGuildRoles = [];
+			await this
+				.msg
+				.guild
+				.roles
+				.array()
+				.forEach( e => {
+					nameGuildRoles.push(e.name);
+				});
+
+			const newRoles = gameRoles.filter( f => nameGuildRoles.includes(f) === false);
+
+			newRoles.forEach( f => {
+					this.msg.guild.createRole({ name: f});
+			});
+		})
 	}
 }
