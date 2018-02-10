@@ -53,9 +53,12 @@ export default class Athena {
 	}
 
 	async checkUser (userId) {
+
+		const dataMemberUser = await this.members.get(userId);
+
 		//Get Nickname
-		const nickname = this.members.get(userId).nickname ?
-			this.members.get(userId).nickname
+		const nickname = dataMemberUser.nickname ?
+			dataMemberUser.nickname
 				.split('|')[0].trim() :
 			false;
 
@@ -63,7 +66,7 @@ export default class Athena {
 			return;
 
 		//Get Current Game Config
-		const userRoles = await this.members.get(userId).roles
+		const userRoles = dataMemberUser.roles
 			.map (r => r.name);
 
 		const currentGameConfig = config.games
