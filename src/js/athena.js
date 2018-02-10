@@ -53,32 +53,40 @@ export default class Athena {
 	}
 
 	async checkUser (userId) {
-		const nickname = this.msg.guild.members ?
-			this.msg.guild.members.split('-')[0].trim() :
+		//Get Nickname
+		const nickname = this.members.get(userId).nickname ?
+			this.members.get(userId).nickname
+				.split('|')[0].trim() :
 			false;
 
 		if (!nickname)
 			return;
 
-		const rol = await this.members.get(userId).roles
-			.find( r => {
-				return config.gameslist.includes(r.name);
-			});
+		//Get Current Game Config
+		const userRoles = await this.members.get(userId).roles
+			.map (r => r.name);
 
-		if(!rol)
+		const currentGameConfig = config.games
+			.find(g => userRoles.includes(g.name));
+
+		if (!currentGameConfig)
 			return;
 
 		//Get data profile
-		const Game = require(`./classes/${rol.name}`);
+		const Game = require(`./classes/${currentGameConfig.name}`);
 		const _game = new Game();
-		_game.searchData(userId, nickname, config.games[`${rol.name}`], this);
+		const dataUser = await _game.searchData(nickname, currentGameConfig);
+
+		//Set data user
+		this.changeNick(userId, dataUser.nickname);
+		this.checkRole(userId, dataUser.role, currentGameConfig);
 	}
 
-	async changeNick(userId, nickname, prefix){
+	async changeNick(userId, nickname){
 		await this.members
 			.get(userId)
-			.setNickname(`${prefix}${nickname}`);
-		winston.log('info', `New nickname ${prefix} - ${nickname}...`);
+			.setNickname(`${nickname}`);
+		winston.log('info', `New nickname ${nickname}...`);
 	}
 
 	async checkRole (userId, rankName, game) {
@@ -89,16 +97,16 @@ export default class Athena {
 			return;
 
 		// Get old role of the game
-		const gameRoles = config.games[`${game}`].roles;
+		const gameRoles = game.roles;
 		const activeRole = await this.members.get(userId).roles.array()
 			.find( e => gameRoles.includes(e.name));
 
+		if (activeRole && activeRole.name === role.name)
+			return;
+			
 		//Add Roles
 		await this.members.get(userId).addRole(role);
-
-		if(!activeRole)
-			return;
-
+			
 		// Remove Role
 		await this.members.get(userId).removeRole(activeRole);
 

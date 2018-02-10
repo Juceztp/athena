@@ -2,12 +2,10 @@
 const overwatch = require('owapi');
 const winston = require('winston');
 
-const GAME = 'Overwatch';
-
 class Overwatch
 {
 	//async searchData (battletag, region)
-	async searchData(userId, nickname, config, athena)
+	async searchData(nickname, config)
 	{
 		if (nickname.search('#') === -1){
 			winston.log('info', `Bad format: ${nickname}`);
@@ -15,12 +13,13 @@ class Overwatch
 		}
 
 		try{
-			const prefix = await overwatch
+			const dataUser = await overwatch
 				.getGeneralStats(nickname.replace('#', '-'), config.region);
 
-			const role = prefix.rank_name.capitalize() + ' - OW';
-			athena.changeNick(userId, nickname, `[${prefix.rank}]`);
-			athena.checkRole(userId, role, GAME);
+			return {
+				nickname: `${nickname} | ${dataUser.rank}`,
+				role: dataUser.rank_name.capitalize() + ' - OW'
+			};
 		}
 		catch(err){
 			winston.log('info', `Data not found: ${nickname}`);

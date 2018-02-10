@@ -6,11 +6,11 @@ const winston = require('winston');
 require('../util/capitalize');
 
 const QUEUE_TYPE = 'RANKED_SOLO_5x5';
-const GAME = 'LeagueOfLegends';
 
 class LeagueOfLegends
 {
-	searchData(userId, nickname, config, athena)
+
+	searchData(nickname, config)
 	{
 		const api = new API({
 			key: config.key,
@@ -35,12 +35,13 @@ class LeagueOfLegends
 					winston.log('info', `Not data this season for: ${nickname}`);
 					return;
 				}
-				const pos = res.find( p => p.queueType === QUEUE_TYPE);
-				const prefix = `[${pos.rank}]`;
-				pos.tier = pos.tier.toLowerCase().capitalize() + ' - LoL';
 
-				athena.changeNick(userId, nickname, prefix);
-				athena.checkRole(userId, pos.tier, GAME);
+				const pos = res.find( p => p.queueType === QUEUE_TYPE);
+				
+				return {
+					nickname: `${nickname} | ${pos.rank}`,
+					role: pos.tier.toLowerCase().capitalize() + ' - LoL'
+				};
 			});
 
 		});
