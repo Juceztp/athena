@@ -15,7 +15,7 @@ let timeout;
 
 client.on('ready', () => {
 	winston.log('info', `Logged in as ${client.user.tag}...`);
-	winston.log('info', `With ${this.bot.users.size} users...`);
+	winston.log('info', `With ${this.client.users.size} users...`);
 });
 
 client.on('message', message => {

@@ -29,6 +29,7 @@ export default class Athena {
 			const usersId = await this.bot.users
 				.filter(u => this.members.get(u.id))
 				.map(u => u.id);
+
 			for (const userId of usersId) {
 				try {
 					await this.checkUser (userId);
@@ -55,7 +56,6 @@ export default class Athena {
 	async checkUser (userId) {
 
 		const dataMemberUser = await this.members.get(userId);
-
 		//Get Nickname
 		const nickname = dataMemberUser.nickname ?
 			dataMemberUser.nickname
@@ -76,7 +76,7 @@ export default class Athena {
 			return;
 
 		//Get data profile
-		const Game = require(`./classes/${currentGameConfig.name}`);
+		const Game = require(`./classes/${currentGameConfig.name.replace(/ /g, '')}`);
 		const _game = new Game();
 		const dataUser = await _game.searchData(nickname, currentGameConfig);
 
