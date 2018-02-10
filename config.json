@@ -1,15 +1,15 @@
 {
 	"global": {
 		"adminsid": [
-			""
+			"187691336189607936"
 		],
-		"mainchannelid": "",
+		"mainchannelid": "308125036907200512",
 		"intervalminutetime": 5,
 		"initialmessage": "Starting update \nNickname format: Battletag#1234",
 		"finalmessage": "Finished update!",
 		"destroymessage": "Bye!",
 		"stoploopmessage": "Stoped!",
-		"token": ""
+		"token": "Mzc0MjgxOTA3MTE2MDQ4Mzk0.DV_xqw.V8cFcCd0fGR0pH2R82zFDNB8ieg"
 	},
 	"games": {
 		"Overwatch": {
@@ -24,7 +24,7 @@
 				"Bronze - OW"
 			]
 		},
-		"LoL": {
+		"LeagueOfLegends": {
 			"key": "",
 			"region": "lan",
 			"roles": [
@@ -41,6 +41,6 @@
 	},
 	"gameslist": [
 		"Overwatch",
-		"LoL"
+		"LeagueOfLegends"
 	]
 }

@@ -6,9 +6,9 @@ const winston = require('winston');
 require('../util/capitalize');
 
 const QUEUE_TYPE = 'RANKED_SOLO_5x5';
-const GAME = 'LoL';
+const GAME = 'LeagueOfLegends';
 
-class LoL
+class LeagueOfLegends
 {
 	searchData(userId, nickname, config, athena)
 	{
@@ -47,4 +47,4 @@ class LoL
 	}
 }
 
-module.exports = LoL;
+module.exports = LeagueOfLegends;
