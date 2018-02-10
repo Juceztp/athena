@@ -74,18 +74,18 @@ export default class Athena {
 			return;
 
 		nickname = nickname
-				.split('-')[0]
-				.trim();
+			.split('-')[0]
+			.trim();
 
 		let rol = await this
-				.msg
-				.guild
-				.members
-				.get(userId)
-				.roles
-				.find( r => {
-					return config.gameslist.includes(r.name);
-				});
+			.msg
+			.guild
+			.members
+			.get(userId)
+			.roles
+			.find( r => {
+				return config.gameslist.includes(r.name);
+			});
 
 		if(!rol)
 			return;
@@ -168,8 +168,8 @@ export default class Athena {
 			const newRoles = gameRoles.filter( f => nameGuildRoles.includes(f) === false);
 
 			newRoles.forEach( f => {
-					this.msg.guild.createRole({ name: f});
+				this.msg.guild.createRole({ name: f});
 			});
-		})
+		});
 	}
 }
