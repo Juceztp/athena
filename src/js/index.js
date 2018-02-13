@@ -15,7 +15,7 @@ let timeout;
 
 client.on('ready', () => {
 	winston.log('info', `Logged in as ${client.user.tag}...`);
-	winston.log('info', `With ${this.client.users.size} users...`);
+	winston.log('info', `With ${client.users.size} users...`);
 });
 
 client.on('message', message => {
@@ -39,8 +39,8 @@ client.on('message', message => {
 	if (messageContent === '!roles')
 		_athena.getRolesFromServer();
 
-	if (messageContent === '!init roles')
-		_athena.createRoles();
+	if (messageContent.indexOf('!init roles') !== -1)
+		_athena.createRoles(messageContent.replace('!init roles ', ''));
 
 	if (messageContent === '!stop loop') {
 		_athena.sendMessage(config.global.stoploopmessage);

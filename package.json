@@ -4,11 +4,11 @@
   "description": "Bot of Discord that updates the username with the SR",
   "main": "index.js",
   "scripts": {
-    "js": "npm run lint:js && babel src/js --out-dir dist/js",
-    "watch:js": "onchange src/js/*.js -- npm run js",
+    "build": "npm run lint:js && babel src/js --out-dir dist/js",
+    "watch:build": "onchange src/js/*.js -- npm run build",
     "lint:js": "eslint src/js/**/*.js",
-    "dev": "npm run watch:js",
-    "start": "npm run js && node dist/js/index.js"
+    "dev": "npm run watch:build",
+    "start": "npm run build && node dist/js/index.js"
   },
   "repository": {
     "type": "git",
