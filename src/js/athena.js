@@ -115,6 +115,10 @@ export default class Athena {
 
 	async createRoles(game){
 		winston.log('info', `Creating roles of ${game}...`);
+
+		if (!game)
+			return;
+
 		const gameConfig = config.games
 			.find(g => g.name === game);
 		winston.log('debug', gameConfig);
@@ -126,5 +130,44 @@ export default class Athena {
 			.map(roleName => this.server.createRole({ name: roleName }));
 		winston.log('info', 'Finished process...');
 		this.sendMessage('Roles created!');
+	}
+
+	async assignRole (game) {
+		try {
+			winston.log('info', `Assigning ${game}...`);
+			if (!game)
+				return;
+
+			this.sendMessage('Assigning...');
+
+			//Get Users on server
+			const usersId = await this.bot.users
+				.filter(u => this.members.get(u.id))
+				.map(u => u.id);
+
+			//Get role
+			const role = await this.roles
+				.find(r => r.name === game);
+
+			if (!role)
+				return;
+
+			for (const userId of usersId) {
+				try {
+					//Add Roles
+					await this.members.get(userId).addRole(role);
+				}
+				catch (e) {
+					winston.log('error', e);
+				}
+			}
+
+			this.sendMessage('Role assigned to all users on the server...');
+			winston.log('info', 'Role assigned to all users on the server...');
+			return;
+		}
+		catch (e) {
+			winston.log('error', e);
+		}
 	}
 }

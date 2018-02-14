@@ -48,6 +48,9 @@ client.on('message', message => {
 		client.clearInterval(timeout);
 	}
 
+	if (messageContent.indexOf('!assign role') !== -1)
+		_athena.assignRole(messageContent.replace('!assign role ', ''));
+
 	if (messageContent === '!destroy') {
 		_athena.sendMessage(config.global.destroymessage);
 		client.destroy();
