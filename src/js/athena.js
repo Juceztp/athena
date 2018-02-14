@@ -76,6 +76,7 @@ export default class Athena {
 		const Game = require(`./classes/${currentGameConfig.name.replace(/ /g, '')}`);
 		const _game = new Game();
 		const dataUser = await _game.searchData(nickname, currentGameConfig);
+		winston.log('debug', dataUser);
 
 		//Set data user
 		this.changeNick(userId, dataUser.nickname);
