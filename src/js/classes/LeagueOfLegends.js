@@ -5,11 +5,9 @@ const winston = require('winston');
 // Local Dependencies
 require('../util/capitalize');
 
-const Game = require('./Game');
-
 const QUEUE_TYPE = 'RANKED_SOLO_5x5';
 
-class LeagueOfLegends extends Game
+class LeagueOfLegends
 {
 
 	searchData(athena, userId, nickname, config)
@@ -45,7 +43,7 @@ class LeagueOfLegends extends Game
 						role: pos.tier.toLowerCase().capitalize() + ' - LoL'
 					};
 
-					super.updateUser(athena, config, userId, dataUser);
+					athena.updateUser(config, userId, dataUser);
 				});
 			});
 		}

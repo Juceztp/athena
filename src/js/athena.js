@@ -75,11 +75,7 @@ export default class Athena {
 		//Get data profile
 		const Game = require(`./classes/${currentGameConfig.name.replace(/ /g, '')}`);
 		const _game = new Game();
-		const dataUser = await _game.searchData(this, userId, nickname, currentGameConfig);
-
-		//Set data user
-		// this.changeNick(userId, dataUser.nickname);
-		// this.checkRole(userId, dataUser.role, currentGameConfig);
+		await _game.searchData(this, userId, nickname, currentGameConfig);
 	}
 
 	async changeNick(userId, nickname){
@@ -111,6 +107,11 @@ export default class Athena {
 		await this.members.get(userId).removeRole(activeRole);
 
 		winston.log('info', `Role added ${rankName} to ${userId}...`);
+	}
+
+	updateUser(config, userId, dataUser){
+		this.changeNick(userId, dataUser.nickname);
+		this.checkRole(userId, dataUser.role, config);
 	}
 
 	async createRoles(game){

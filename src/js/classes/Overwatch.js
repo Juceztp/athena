@@ -2,9 +2,7 @@
 const overwatch = require('owapi');
 const winston = require('winston');
 
-const Game = require('./Game');
-
-class Overwatch extends Game
+class Overwatch
 {
 	//async searchData (battletag, region)
 	async searchData(athena, userId, nickname, config)
@@ -23,7 +21,7 @@ class Overwatch extends Game
 				role: generalStats.rank_name.capitalize() + ' - OW'
 			};
 
-			super.updateUser(athena, config, userId, dataUser);
+			athena.updateUser(config, userId, dataUser);
 		}
 		catch(err){
 			winston.log('info', `Data not found: ${nickname}`);
