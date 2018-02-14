@@ -75,11 +75,11 @@ export default class Athena {
 		//Get data profile
 		const Game = require(`./classes/${currentGameConfig.name.replace(/ /g, '')}`);
 		const _game = new Game();
-		const dataUser = await _game.searchData(nickname, currentGameConfig);
+		const dataUser = await _game.searchData(this, userId, nickname, currentGameConfig);
 
 		//Set data user
-		this.changeNick(userId, dataUser.nickname);
-		this.checkRole(userId, dataUser.role, currentGameConfig);
+		// this.changeNick(userId, dataUser.nickname);
+		// this.checkRole(userId, dataUser.role, currentGameConfig);
 	}
 
 	async changeNick(userId, nickname){
@@ -103,10 +103,10 @@ export default class Athena {
 
 		if (activeRole && activeRole.name === role.name)
 			return;
-			
+
 		//Add Roles
 		await this.members.get(userId).addRole(role);
-			
+
 		// Remove Role
 		await this.members.get(userId).removeRole(activeRole);
 

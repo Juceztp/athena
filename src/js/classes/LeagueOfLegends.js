@@ -5,12 +5,14 @@ const winston = require('winston');
 // Local Dependencies
 require('../util/capitalize');
 
+const Game = require('./Game');
+
 const QUEUE_TYPE = 'RANKED_SOLO_5x5';
 
-class LeagueOfLegends
+class LeagueOfLegends extends Game
 {
 
-	searchData(nickname, config)
+	searchData(athena, userId, nickname, config)
 	{
 		const api = new API({
 			key: config.key,
@@ -19,32 +21,38 @@ class LeagueOfLegends
 
 		const options = { name: nickname };
 
-		api.getSummoner(options, (err, res) => {
-			if(err){
-				winston.log('info', `${err.message}: ${nickname}`);
-				return;
-			}
-
-			const options = { summonerId : res.id };
-			api.getSummonerLeaguePositions(options, (err, res) => {
+		try{
+			api.getSummoner(options, (err, res) => {
 				if(err){
 					winston.log('info', `${err.message}: ${nickname}`);
 					return;
 				}
-				if(res.length === 0){
-					winston.log('info', `Not data this season for: ${nickname}`);
-					return;
-				}
 
-				const pos = res.find( p => p.queueType === QUEUE_TYPE);
-				
-				return {
-					nickname: `${nickname} | ${pos.rank}`,
-					role: pos.tier.toLowerCase().capitalize() + ' - LoL'
-				};
+				const options = { summonerId : res.id };
+				api.getSummonerLeaguePositions(options, (err, res) => {
+					if(err){
+						winston.log('info', `${err.message}: ${nickname}`);
+						return;
+					}
+					if(res.length === 0){
+						winston.log('info', `Not data this season for: ${nickname}`);
+						return;
+					}
+
+					const pos = res.find( p => p.queueType === QUEUE_TYPE);
+					const dataUser = {
+						nickname: `${nickname} | ${pos.rank}`,
+						role: pos.tier.toLowerCase().capitalize() + ' - LoL'
+					};
+
+					super.updateUser(athena, config, userId, dataUser);
+				});
 			});
+		}
+		catch(e){
+			winston.log('error', e);
+		}
 
-		});
 	}
 }
 
