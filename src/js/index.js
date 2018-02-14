@@ -10,6 +10,7 @@ import Athena from './athena';
 const config = require('../../config.json');
 
 //Constant
+const ADMINISTRATOR_PERMISSION = 'ADMINISTRATOR';
 const MINUTEINMILLISECONDS = 60000;
 let timeout;
 
@@ -20,7 +21,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
-	if (!config.global.adminsid.includes(message.author.id))
+	if (!message.member.hasPermission(ADMINISTRATOR_PERMISSION))
 		return;
 
 	const _athena = new Athena(client, message);
@@ -33,7 +34,7 @@ client.on('message', message => {
 		_athena.run();
 		timeout = client.setInterval(
 			() => _athena.run(),
-			config.global.intervalminutetime * MINUTEINMILLISECONDS);
+			MINUTEINMILLISECONDS * client.users.size);
 	}
 
 	if (messageContent === '!roles')

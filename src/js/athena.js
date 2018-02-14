@@ -13,13 +13,10 @@ export default class Athena {
 
 	constructor (client, message = null) {
 		this.bot = client;
+		this.msg = message;
 		this.server = message.guild;
 		this.members = message.guild.members;
 		this.roles = message.guild.roles;
-		this.channel = this
-			.bot
-			.channels
-			.get(config.global.mainchannelid);
 	}
 
 	async run() {
@@ -49,7 +46,7 @@ export default class Athena {
 	}
 
 	async sendMessage(message) {
-		await this.channel.send(message);
+		await this.msg.reply(message);
 		winston.log('info', `Sent message: ${message}...`);
 	}
 

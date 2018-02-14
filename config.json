@@ -1,15 +1,10 @@
 {
 	"global": {
-		"adminsid": [
-			"187691336189607936"
-		],
-		"mainchannelid": "308125036907200512",
-		"intervalminutetime": 5,
-		"initialmessage": "Starting update \nNickname format: Battletag#1234",
+		"token": "Mzc0MjgxOTA3MTE2MDQ4Mzk0.DWC2ew.vhhih0ETkm95Fk3REaiEG91vcj0",
+		"initialmessage": "Starting update",
 		"finalmessage": "Finished update!",
 		"destroymessage": "Bye!",
-		"stoploopmessage": "Stoped!",
-		"token": "Mzc0MjgxOTA3MTE2MDQ4Mzk0.DWC2ew.vhhih0ETkm95Fk3REaiEG91vcj0"
+		"stoploopmessage": "Stoped!"
 	},
 	"games": [
 		{
